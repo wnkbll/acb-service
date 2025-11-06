@@ -1,7 +1,9 @@
 from datetime import date
+
 from pydantic import BaseModel
 
 from src.models import TimestampsModelMixin
+
 
 class BatteryResponseModel(TimestampsModelMixin):
     id: int

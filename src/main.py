@@ -9,8 +9,8 @@ from pydantic import ValidationError
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
-from src.core.paths import LOGGING_DIR
 from src.api.routes import router
+from src.core.paths import LOGGING_DIR
 from src.core.settings import Settings, get_app_settings
 
 
@@ -23,7 +23,7 @@ def get_application() -> FastAPI:
     settings: Settings = get_app_settings()
 
     logger.configure(
-        handlers=[ # type: ignore
+        handlers=[  # type: ignore
             dict(
                 sink=LOGGING_DIR.joinpath(settings.logging.file),
                 level="WARNING",

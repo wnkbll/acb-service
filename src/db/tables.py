@@ -1,4 +1,5 @@
-from datetime import datetime, date
+from datetime import date, datetime
+
 from sqlalchemy import (
     Boolean,
     Date,
@@ -49,7 +50,9 @@ class BatteryTable(Table):
     device_id: Mapped[int] = mapped_column(
         ForeignKey("devices.id", ondelete="CASCADE"), nullable=False
     )
-    device: Mapped["DeviceTable"] = relationship(back_populates="batteries")
+    device: Mapped["DeviceTable"] = relationship(
+        back_populates="batteries", lazy="selectin"
+    )
 
 
 class DeviceTable(Table):
@@ -70,5 +73,5 @@ class DeviceTable(Table):
     )
 
     batteries: Mapped[list["BatteryTable"]] = relationship(
-        back_populates="device",
+        back_populates="device", lazy="joined"
     )
