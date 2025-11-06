@@ -1,12 +1,15 @@
+import sys
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, status
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
+from loguru import logger
 from pydantic import ValidationError
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
+from src.core.paths import LOGGING_DIR
 from src.api.routes import router
 from src.core.settings import Settings, get_app_settings
 
@@ -18,6 +21,22 @@ async def lifespan(_: FastAPI):
 
 def get_application() -> FastAPI:
     settings: Settings = get_app_settings()
+
+    logger.configure(
+        handlers=[ # type: ignore
+            dict(
+                sink=LOGGING_DIR.joinpath(settings.logging.file),
+                level="WARNING",
+                rotation=settings.logging.rotation,
+                compression=settings.logging.compression,
+                serialize=True,
+            ),
+            dict(
+                sink=sys.stderr,
+                level="TRACE",
+            ),
+        ],
+    )
 
     application: FastAPI = FastAPI(**settings.fastapi_kwargs, lifespan=lifespan)
 

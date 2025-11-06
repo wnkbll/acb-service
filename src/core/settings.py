@@ -33,6 +33,12 @@ class FastAPISettings(BaseModel):
     version: str = "0.1.0"
 
 
+class LoggingSettings(BaseModel):
+    file: str = "backend.log"
+    rotation: str = "2MB"
+    compression: str = "zip"
+
+
 class MiddlewareSettings(BaseModel):
     allow_origins: list[str] = ["*"]
     allow_credentials: bool = True
@@ -44,6 +50,7 @@ class Settings(BaseModel):
     postgres: PostgresSettings = PostgresSettings()  # type: ignore
 
     fastapi: FastAPISettings = FastAPISettings()
+    logging: LoggingSettings = LoggingSettings()
     middleware: MiddlewareSettings = MiddlewareSettings()
 
     @property
