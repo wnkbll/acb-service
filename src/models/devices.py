@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 from src.models import TimestampsModelMixin
-from src.models.battaries import BatteryResponseModel
+from src.models.batteries import BatteryResponseModel
 
 
 class DeviceResponseModel(TimestampsModelMixin):

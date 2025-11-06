@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker
 from src.core.settings import Settings, get_app_settings
 from src.db.postgres import Postgres
 from src.services import Service
-from src.services.battaries import BattariesService
+from src.services.batteries import BatteriesService
 from src.services.devices import DevicesService
 
 
@@ -33,8 +33,8 @@ def get_service(
     return __get_repo
 
 
-BattariesServiceDepends = Annotated[
-    BattariesService, Depends(get_service(BattariesService))
+BatteriesServiceDepends = Annotated[
+    BatteriesService, Depends(get_service(BatteriesService))
 ]
 DevicesServiceDepends = Annotated[DevicesService, Depends(get_service(DevicesService))]
 

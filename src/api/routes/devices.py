@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
-from src.models import SuccessMessage
 from src.api.dependencies import DevicesServiceDepends
+from src.models import SuccessMessage
 from src.models.devices import DeviceCreateModel, DeviceResponseModel, DeviceUpdateModel
 
 router = APIRouter()
@@ -13,7 +13,9 @@ router = APIRouter()
     description="Возвращает запись устройства по переданному id",
     response_model=DeviceResponseModel,
 )
-async def get_device(device_id: int, service: DevicesServiceDepends) -> DeviceResponseModel:
+async def get_device(
+    device_id: int, service: DevicesServiceDepends
+) -> DeviceResponseModel:
     return await service.get(device_id)
 
 
@@ -57,5 +59,7 @@ async def update_device(
     description="Удаляет запись устройства по переданному id",
     response_model=SuccessMessage,
 )
-async def delete_device(device_id: int, service: DevicesServiceDepends) -> SuccessMessage:
+async def delete_device(
+    device_id: int, service: DevicesServiceDepends
+) -> SuccessMessage:
     return await service.delete(device_id)

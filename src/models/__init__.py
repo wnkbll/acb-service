@@ -3,7 +3,10 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-SuccessMessages = Literal["Запись успешно создана", "Запись успешно обновлена", "Запись успешно удалена"]
+SuccessMessages = Literal[
+    "Запись успешно создана", "Запись успешно обновлена", "Запись успешно удалена"
+]
+
 
 class SuccessMessage(BaseModel):
     message: SuccessMessages

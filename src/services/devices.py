@@ -3,7 +3,7 @@ from sqlalchemy import delete, insert, select, update
 
 from src.db.tables import BatteryTable, DeviceTable
 from src.models import SuccessMessage
-from src.models.battaries import BatteryResponseModel
+from src.models.batteries import BatteryResponseModel
 from src.models.devices import DeviceCreateModel, DeviceResponseModel, DeviceUpdateModel
 from src.services import Service
 
@@ -108,7 +108,9 @@ class DevicesService(Service):
         query = (
             update(DeviceTable)
             .where(DeviceTable.id == id_)
-            .values(**device_to_update.model_dump(exclude={"batteries"}, exclude_none=True))
+            .values(
+                **device_to_update.model_dump(exclude={"batteries"}, exclude_none=True)
+            )
         )
 
         async with self.session_factory() as session:
