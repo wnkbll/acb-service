@@ -1,13 +1,22 @@
 from datetime import datetime, date
-from sqlalchemy import Boolean, Date, DateTime, ForeignKey, Integer, MetaData, String, func
+from sqlalchemy import (
+    Boolean,
+    Date,
+    DateTime,
+    ForeignKey,
+    Integer,
+    MetaData,
+    String,
+    func,
+)
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
 class Table(DeclarativeBase):
     convention = {
-        "all_column_names": lambda constraint, _: "_".join([
-            column.name for column in constraint.columns.values()
-        ]),
+        "all_column_names": lambda constraint, _: "_".join(
+            [column.name for column in constraint.columns.values()]
+        ),
         "ix": "ix__%(table_name)s__%(all_column_names)s",
         "uq": "uq__%(table_name)s__%(all_column_names)s",
         "ck": "ck__%(table_name)s__%(constraint_name)s",
@@ -31,13 +40,16 @@ class BatteryTable(Table):
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now()
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+        onupdate=func.now(),
     )
 
-    device_id: Mapped[int] = mapped_column(ForeignKey("devices.id", ondelete="CASCADE"), nullable=False)
-    device: Mapped["DeviceTable"] = relationship(
-        back_populates="batteries"
+    device_id: Mapped[int] = mapped_column(
+        ForeignKey("devices.id", ondelete="CASCADE"), nullable=False
     )
+    device: Mapped["DeviceTable"] = relationship(back_populates="batteries")
 
 
 class DeviceTable(Table):
@@ -51,7 +63,10 @@ class DeviceTable(Table):
         DateTime(timezone=True), nullable=False, server_default=func.now()
     )
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=False, server_default=func.now(), onupdate=func.now()
+        DateTime(timezone=True),
+        nullable=False,
+        server_default=func.now(),
+        onupdate=func.now(),
     )
 
     batteries: Mapped[list["BatteryTable"]] = relationship(

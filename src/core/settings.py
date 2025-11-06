@@ -6,7 +6,10 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from src.core.paths import ENV_PATH
 
 settings_config_dict = SettingsConfigDict(
-    env_file=ENV_PATH, env_file_encoding='utf-8', validate_default=False, extra="ignore",
+    env_file=ENV_PATH,
+    env_file_encoding="utf-8",
+    validate_default=False,
+    extra="ignore",
 )
 
 
@@ -38,7 +41,7 @@ class MiddlewareSettings(BaseModel):
 
 
 class Settings(BaseModel):
-    postgres: PostgresSettings = PostgresSettings() # type: ignore
+    postgres: PostgresSettings = PostgresSettings()  # type: ignore
 
     fastapi: FastAPISettings = FastAPISettings()
     middleware: MiddlewareSettings = MiddlewareSettings()

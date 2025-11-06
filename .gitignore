@@ -5,6 +5,9 @@
 # Postgres data volume
 pgdata/
 
+# Postgres data volume
+.ruff_cache/
+
 .idea
 */migrations/versions/
 
