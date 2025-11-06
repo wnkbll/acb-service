@@ -1,87 +1,61 @@
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter
 
+from src.models import SuccessMessage
 from src.api.dependencies import DevicesServiceDepends
-from src.db.errors import EntityDoesNotExistError
-from src.models.devices import DeviceCreateModel, DeviceResponseModel
+from src.models.devices import DeviceCreateModel, DeviceResponseModel, DeviceUpdateModel
 
 router = APIRouter()
 
 
 @router.get(
-    "/{id_}",
+    "/{device_id}",
     summary="Получить запись устройства",
     description="Возвращает запись устройства по переданному id",
     response_model=DeviceResponseModel,
 )
-async def get_device(
-    id_: int, device_repo: DevicesServiceDepends
-) -> DeviceResponseModel:
-    try:
-        device = await device_repo.get(id_=id_)
-    except EntityDoesNotExistError as existence_error:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"There is no device with this id:{id_}",
-        ) from existence_error
-
-    return device
+async def get_device(device_id: int, service: DevicesServiceDepends) -> DeviceResponseModel:
+    return await service.get(device_id)
 
 
 @router.get(
-    "/",
+    "",
     summary="Получить записи устройств",
     description="Возвращает записи устройств по переданному id",
     response_model=list[DeviceResponseModel],
 )
-async def get_devices(device_repo: DevicesServiceDepends) -> list[DeviceResponseModel]:
-    return await device_repo.get_all()
+async def get_devices(service: DevicesServiceDepends) -> list[DeviceResponseModel]:
+    return await service.get_all()
 
 
 @router.post(
-    "/",
+    "",
     summary="Создать запись устройства",
     description="Создает запись устройства",
-    response_model=DeviceResponseModel,
+    response_model=SuccessMessage,
 )
-async def create_device(device: DeviceCreateModel, device_repo: DevicesServiceDepends):
-    pass
+async def create_device(
+    device: DeviceCreateModel, service: DevicesServiceDepends
+) -> SuccessMessage:
+    return await service.create(device)
 
 
 @router.put(
-    "/{id_}",
+    "/{device_id}",
     summary="Обновить запись устройства",
     description="Обновляет запись устройства по переданному id",
-    response_model=DeviceResponseModel,
+    response_model=SuccessMessage,
 )
 async def update_device(
-    id_: int, device_repo: DevicesServiceDepends
-) -> DeviceResponseModel:
-    try:
-        device = await device_repo.get(id_=id_)
-    except EntityDoesNotExistError as existence_error:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"There is no device with this id:{id_}",
-        ) from existence_error
-
-    return device
+    device_id: int, device: DeviceUpdateModel, service: DevicesServiceDepends
+) -> SuccessMessage:
+    return await service.update(device_id, device)
 
 
 @router.delete(
-    "/{id_}",
+    "/{device_id}",
     summary="Удалить запись устройства",
     description="Удаляет запись устройства по переданному id",
-    response_model=DeviceResponseModel,
+    response_model=SuccessMessage,
 )
-async def delete_device(
-    id_: int, device_repo: DevicesServiceDepends
-) -> DeviceResponseModel:
-    try:
-        device = await device_repo.get(id_=id_)
-    except EntityDoesNotExistError as existence_error:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=f"There is no device with this id:{id_}",
-        ) from existence_error
-
-    return device
+async def delete_device(device_id: int, service: DevicesServiceDepends) -> SuccessMessage:
+    return await service.delete(device_id)

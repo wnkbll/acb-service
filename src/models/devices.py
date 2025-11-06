@@ -4,14 +4,11 @@ from src.models import TimestampsModelMixin
 from src.models.battaries import BatteryResponseModel
 
 
-class DeviceInDB(TimestampsModelMixin):
+class DeviceResponseModel(TimestampsModelMixin):
     id: int
     name: str
     version: str
     is_active: bool
-
-
-class DeviceResponseModel(DeviceInDB):
     batteries: list[BatteryResponseModel]
 
 
@@ -19,4 +16,9 @@ class DeviceCreateModel(BaseModel):
     name: str
     version: str
     is_active: bool
-    batteries: list[int] | None
+
+
+class DeviceUpdateModel(BaseModel):
+    name: str | None = None
+    version: str | None = None
+    is_active: bool | None = None

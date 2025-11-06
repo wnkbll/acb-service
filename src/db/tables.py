@@ -48,7 +48,7 @@ class BatteryTable(Table):
     )
 
     device_id: Mapped[int] = mapped_column(
-        ForeignKey("devices.id", ondelete="CASCADE"), nullable=False
+        ForeignKey("devices.id", ondelete="SET NULL"), nullable=True
     )
     device: Mapped["DeviceTable"] = relationship(
         back_populates="batteries", lazy="selectin"
@@ -73,5 +73,5 @@ class DeviceTable(Table):
     )
 
     batteries: Mapped[list["BatteryTable"]] = relationship(
-        back_populates="device", lazy="joined"
+        back_populates="device", lazy="selectin"
     )

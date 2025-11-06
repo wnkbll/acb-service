@@ -1,10 +1,12 @@
 from datetime import datetime
+from typing import Literal
 
 from pydantic import BaseModel
 
+SuccessMessages = Literal["Запись успешно создана", "Запись успешно обновлена", "Запись успешно удалена"]
 
 class SuccessMessage(BaseModel):
-    message: str = "Запись успешно создана"
+    message: SuccessMessages
 
 
 class TimestampsModelMixin(BaseModel):
