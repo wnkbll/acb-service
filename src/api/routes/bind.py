@@ -9,7 +9,7 @@ router = APIRouter()
 
 @router.post(
     "/many",
-    summary="Создать связь между устроиством и аккумуляторами",
+    summary="Создать связь между устройством и аккумуляторами",
     response_model=SuccessMessage,
 )
 async def create_binds(
@@ -20,7 +20,7 @@ async def create_binds(
 
 @router.post(
     "/one",
-    summary="Создать связь между устроиством и аккумулятором",
+    summary="Создать связь между устройством и аккумулятором",
     response_model=SuccessMessage,
 )
 async def create_bind(
@@ -31,7 +31,7 @@ async def create_bind(
 
 @router.delete(
     "/{battery_id}",
-    summary="Создать связь между устроиством и аккумуляторами",
+    summary="Удалить связь аккумулятора с устройством",
     response_model=SuccessMessage,
 )
 async def delete_bind(battery_id: int, service: BindServiceDepends) -> SuccessMessage:
