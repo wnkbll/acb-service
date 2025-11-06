@@ -8,6 +8,13 @@ from loguru import logger
 from src.api.routes import router
 from src.core.paths import LOGGING_DIR
 from src.core.settings import Settings, get_app_settings
+from src.db.postgres import Postgres
+
+
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    await Postgres.initialize_database()
+    yield
 
 
 def get_application() -> FastAPI:
@@ -29,7 +36,7 @@ def get_application() -> FastAPI:
         ],
     )
 
-    application: FastAPI = FastAPI(**settings.fastapi_kwargs)
+    application: FastAPI = FastAPI(**settings.fastapi_kwargs, lifespan=lifespan)
 
     application.include_router(router, prefix="/api")
 
