@@ -10,11 +10,6 @@ from src.core.paths import LOGGING_DIR
 from src.core.settings import Settings, get_app_settings
 
 
-@asynccontextmanager
-async def lifespan(_: FastAPI):
-    yield
-
-
 def get_application() -> FastAPI:
     settings: Settings = get_app_settings()
 
@@ -34,7 +29,7 @@ def get_application() -> FastAPI:
         ],
     )
 
-    application: FastAPI = FastAPI(**settings.fastapi_kwargs, lifespan=lifespan)
+    application: FastAPI = FastAPI(**settings.fastapi_kwargs)
 
     application.include_router(router, prefix="/api")
 

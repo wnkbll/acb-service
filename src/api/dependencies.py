@@ -7,6 +7,7 @@ from src.core.settings import Settings, get_app_settings
 from src.db.postgres import Postgres
 from src.services import Service
 from src.services.batteries import BatteriesService
+from src.services.bind import BindService
 from src.services.devices import DevicesService
 
 
@@ -37,5 +38,6 @@ BatteriesServiceDepends = Annotated[
     BatteriesService, Depends(get_service(BatteriesService))
 ]
 DevicesServiceDepends = Annotated[DevicesService, Depends(get_service(DevicesService))]
+BindServiceDepends = Annotated[BindService, Depends(get_service(BindService))]
 
 SettingsDepends = Annotated[Settings, Depends(get_app_settings)]
